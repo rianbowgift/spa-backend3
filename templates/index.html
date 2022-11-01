@@ -1,202 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+<!--    <link href="profile.css" rel="stylesheet">-->
 
-    <title>스파르타 피디아</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <title>songs</title>
 
     <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
+        body{
+            margin-top: 20px;
+            background-color: lightgray;
+        }
+        .main{
+            padding: 15px;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+        .topbar{
+            background-color: teal;
+            overflow: hidden;
         }
 
-        .mytitle {
-            width: 100%;
-            height: 250px;
+        .topbar a{
+            float: right;
+            color: whitesmoke;
+            text-align: center;
+            padding: 20px 26px;
+            text-decoration: none;
+            font-size: 26px;
+        }
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg');
-            background-position: center;
-            background-size: cover;
-
+        .sidebar{
+            background-color: #333;
             color: white;
+            height: 100%;
+        }
 
+        .sidebar a{
+            margin-left: 10px;
+            display: block;
+            color: white;
+            padding-bottom: 10px;
+            font-size: 30px;
+            text-decoration: none;
+        }
+
+        .card{
+            position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
-        .mytitle > button {
-            width: 200px;
-            height: 50px;
-
-            background-color: transparent;
-            color: white;
-
-            border-radius: 50px;
-            border: 1px solid white;
-
-            margin-top: 10px;
+        .content{
+            background-color: whitesmoke;
         }
 
-        .mytitle > button:hover {
-            border: 2px solid white;
-        }
 
-        .mycomment {
-            color: gray;
-        }
 
-        .mycards {
-            margin: 20px auto 0px auto;
-            width: 95%;
-            max-width: 1200px;
-        }
 
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 0px auto;
-            padding: 20px;
-            box-shadow: 0px 0px 3px 0px gray;
-
-            display: none;
-        }
-
-        .mybtns {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            margin-top: 20px;
-        }
-
-        .mybtns > button {
-            margin-right: 10px;
-        }
     </style>
-    <script>
-        $(document).ready(function () {
-            listing();
-        });
-
-        function listing() {
-            $.ajax({
-                type: 'GET',
-                url: '/movie',
-                data: {},
-                success: function (response) {
-
-                    let rows = response['movies']
-
-                    for(let i=0;i<rows.length;i++){
-                        let title = rows[i]['title']
-                        let image = rows[i]['image']
-                        let desc = rows[i]['desc']
-                        let star = rows[i]['star']
-                        let star_text = '⭐'.repeat(star)
-                        let comment = rows[i]['comment']
-
-
-                        let temp_htmp = `        <div class="col">
-            <div class="card h-100">
-                <img src="${image}"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${title}</h5>
-                    <p class="card-text">${desc}</p>
-                    <p>${star_text}</p>
-                    <p class="mycomment">${comment}</p>
-                </div>
-            </div>
-        </div>`
-
-                        $('#cards-box').append(temp_htmp)
 
 
 
 
-                    }
-
-
-                }
-            })
-        }
-
-        function posting() {
-
-            let url = $('#url').val()
-            let star = $('#star').val()
-            let comment = $('#comment').val()
-
-            $.ajax({
-                type: 'POST',
-                url: '/movie',
-                data: {url_give:url,star_give:star,comment_give:comment},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            });
-        }
-
-        function open_box() {
-            $('#post-box').show()
-        }
-
-        function close_box() {
-            $('#post-box').hide()
-        }
-    </script>
 </head>
-
 <body>
-<div class="mytitle">
-    <h1>내 생애 최고의 영화들</h1>
-    <button onclick="open_box()">영화 기록하기</button>
-</div>
-<div class="mypost" id="post-box">
-    <div class="form-floating mb-3">
-        <input id="url" type="email" class="form-control" placeholder="name@example.com">
-        <label>영화URL</label>
-    </div>
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">별점</label>
-        <select class="form-select" id="star">
-            <option selected>-- 선택하기 --</option>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
-    </div>
-    <div class="form-floating">
-        <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
-        <label for="floatingTextarea2">코멘트</label>
-    </div>
-    <div class="mybtns">
-        <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
-        <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
-    </div>
-</div>
-<div class="mycards">
-    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+    <div class="container">
+        <div class="main">
+            <div class="topbar">
+                <a href="javascript:history.back();">이전</a>
+
+            </div>
+            <div class="row">
+            <div class="col-md-4 mt-1">
+                <div class="card text-center sidebar">
+                    <div class="card-body">
+                        <img src="https://velog.velcdn.com/images/rianbowgift/post/24c231cd-1901-47b5-b771-7af53c282d98/image.png" class="rounded-circle" width="150">
+                        <div class="mt-3">
+                            <h1>송경헌</h1>
+                            <a href="">Home</a>
+                            <a href="">Profile</a>
+                            <a href="">Project</a>
+                            <a href="">Gallery</a>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+            <div class="col-md-8 mt-1">
+                <div class="card mb-3 content">
+                    <h1 class="m-3 pt-3">About</h1>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Name</h5>
+                            </div>
+                            <div class="col-md-9 text-secondary">
+                                <h5>송경헌</h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Email</h5>
+                            </div>
+                            <div class="col-md-9 text-secondary">
+                                <h5>rianbowgift@gmail.com</h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>number</h5>
+                            </div>
+                            <div class="col-md-9 text-secondary">
+                                <h5>010</h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>address</h5>
+                            </div>
+                            <div class="col-md-9 text-secondary">
+                                <h5>suwon</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3 content">
+                    <h1 class="m-3">Etc</h1>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Github</h5>
+                            </div>
+                            <div class="col-md-9 text-secondary">
+                                https://github.com/rianbowgiftt
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            </div>
+        </div>
+
 
     </div>
-</div>
+
+
+
+
 </body>
-
 </html>
